@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />	
+	<title>欢迎来到云上地大web端</title>
+	<meta name="author" content="WangDu" />
+	<meta name="description" content="欢迎来到云上地大" />
+	<meta name="Resource-type" content="Document" />
+
+<!--	引入设定的网页样式-->
+	<link rel="stylesheet" type="text/css" href="../mapDemo/css/jquery.fullPage.css" />
+
+	<!--[if IE]>
+		<script type="text/javascript">
+			 var console = { log: function() {} };
+		</script>
+	<![endif]-->
+<!--	引入已经设定的动画js文件-->
+	<script src="../mapDemo/js/jquery.min.js"></script>
+	<script src="http://libs.baidu.com/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<!--	引入fullpage的js文件-->
+	<script type="text/javascript" src="../mapDemo/js/jquery.fullPage.js"></script>
+<!--	各滑块页面的颜色设置-->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var pepe = $.fn.fullpage({
+				slidesColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', '','#ccddff'],
+				anchors: ['firstPage', 'secondPage', '3rdPage', 'lastPage'],
+				menu: '#menu'
+			});
+			
+		});
+	</script>
+
+</head>
+
+<body>
+<!--左上角快捷导航标识-->
+<ul id="menu">
+	<li data-menuanchor="firstPage"><a href="#firstPage">欢迎页</a></li>
+	<li data-menuanchor="secondPage"><a href="#secondPage">第二页</a></li>
+	<li data-menuanchor="3rdPage"><a href="#3rdPage">第三页</a></li>
+	<li data-menuanchor="4thpage"><a href="#lastPage">结束&开始</a></li>
+</ul>
+<!--第一页-->
+<div class="section " id="section0">
+	<h1>欢迎来到云上地大</h1>
+	<p>在这里您可以快捷了解云上地大的特色功能</p>
+	<img src="../mapDemo/images/startImgs/welcome.png" alt="欢迎页" />
+</div>
+<!--第二页-->
+<div class="section" id="section1">
+    <div class="slide">
+		<div class="intro">
+			<h1>丰富的工具栏插件</h1>
+			<p>各类工具插件，帮助您更快更好地了解地大与其周边地一切</p>
+			<img src="../mapDemo/images/startImgs/slider.png" alt="slider" />
+		</div>
+	</div>
+
+    <div class="slide">
+		<div class="intro">
+			<img src="../mapDemo/images/startImgs/2.1.png" alt="2.1" height=560px width=800px/>
+			<h1>可点击标记符号</h1>
+			<p>三种校园点标记符号，划分为教学区、生活区、文娱区三大种类，点击对应符号标记可查看详细介绍，点击详细信息可了解官方介绍</p>
+		</div>
+	</div>
+
+    <div class="slide">
+		<div class="intro">
+			<img src="../mapDemo/images/startImgs/2.2.png" alt="2.2" height=560px width=800px/>
+			<h1>周边搜索功能</h1>
+			<p>基于“关键词+搜索范围”的搜索模式，您可自由搜索您想要的内容，同时搭配测量工具能快速获得目标之间的实际距离</p>
+		</div>
+	</div>
+
+    <div class="slide">
+		<div class="intro">
+			<img src="../mapDemo/images/startImgs/3.3.png" alt="3.3" height=560px width=800px/>
+			<h1>三维地块显示</h1>
+			<p>启动三维视角，将校园分为四大区块：生活区、教学区、文娱区、家属区，并分别对三维地物加以渲染，地块分类一目了然</p>
+		</div>
+	</div>
+</div>
+<!--第三页-->
+<div class="section" id="section2">
+	<div class="intro">
+		<h1>基于高德API的GISWeb开发</h1>
+		<p>高德地图WebAPI具有详尽的JS、CSS库，且调用方便，功能明确，连接稳定等诸多优势，故云上地大基于高德进行二次开发</p>
+		<img src="../mapDemo/images/startImgs/page3.png" alt="page3" height=600px width=900px />
+	</div>
+</div>
+<!--第四页-->
+<div class="section" id="section3" style="background: url(../mapDemo/images/startImgs/cloud.jpg);background-size: cover">
+	<div class="intro">
+		<h1 ><a class="sech1" href="webMap.html" >点击进入云上地大</a></h1>
+		<p class="secp">
+			Designed by WangDu , hope you enjoy the trip.
+			<br /><br /><br /><br /><br /><br />
+		</p>
+	</div>
+	<img src="../mapDemo/images/startImgs/pageEnd.png" alt="tablets" height=400px width=900px/>
+</div>
+
+</body>
+</html>
+
+<a href='https://www.freepik.com/vectors/background'>Background vector created by rawpixel.com - www.freepik.com</a>

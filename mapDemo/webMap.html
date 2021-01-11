@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="inital-scale=1.0,user-scalable=no">
+    <!--高德入口允许-->
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=0b2d818d1b2bd0f5adc156ddffe479f4&plugin=AMap.MouseTool&plugin=AMap.ControlBar"></script>
+    <!--地图统一的显示样式-->
+    <link rel="stylesheet" type="text/css" href="../mapDemo/css/demo-center.css">
+    <!--右侧导航栏的样式-->
+    <link rel="stylesheet" href="../mapDemo/css/accordionRightTable.css" media="screen" type="text/css"/>
+    <!--信息窗口的样式-->
+    <link rel="stylesheet" href="../mapDemo/css/info-window-css.css">
+    <!--各类杂项的css样式-->
+    <link rel="stylesheet" href="../mapDemo/css/bag.css">
+    <!--搜索框的style的文件-->
+    <link rel="stylesheet" href="../mapDemo/css/searchBoxStyle.css">
+    <!--引入jq的js文件    -->
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <!--    点标记弹窗js-->
+    <script type="text/javascript" src="../mapDemo/js/info-window.js"></script>
+    <!--    所有点标记信息及调用js-->
+    <script type="text/javascript" src="../mapDemo/js/markersInfoAndActivate.js"></script>
+    <!--引入搜索弹窗的激活和关闭动画    -->
+    <script>
+        $(document).ready(function () {
+            $("#Search_start_").click(function () {
+                $("#_close").show();
+                $("#_start").animate({
+                    left: '350px',
+                    height: '400px',
+                    width: '400px'
+                }, 500, function () {
+                    $("#search_container").show(500);
+                    $("#_close").animate({
+                        height: '40px',
+                        width: '40px'
+                    }, 500);
+                });
+            });
+            //关闭的触发器（手动点击或者点击确认）
+            $("#_close,#search_btn").click(function () {
+                $("#_close").animate({
+                    height: '0px',
+                    width: '0px'
+                }, 500, function () {
+                    $("#_close").hide(500);
+                    $("#search_container").hide(500);
+                    $("#_start").animate({
+                        left: '0px',
+                        height: '0px',
+                        width: '0px'
+                    }, 500);
+                });
+            });
+
+        });
+    </script>
+    
+    <style>
+        html, body,
+        #container {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <title>云上地大web端</title>
+
+</head>
+
+
+<body class="webMap">
+<div id="container"></div>
+<!--    放置搜索的结果-->
+<div id="searchPanel"></div>
+<!--显示地图范围控制工具选项，总感觉有点卡-->
+<div class="input-card" style="width:14rem;">
+    <h4>限制地图显示范围</h4>
+    <div class="input-item">
+        <button class="btnLimit" id="lock-bounds">返回地大，限定范围</button>
+    </div>
+    <div class="input-item">
+        <button class="btnUnLimit" id="unlock-bounds">取消限定，自由漫游</button>
+    </div>
+</div>
+
+<!-- 搜索周边的搜索数据框  -->
+<div id='_start'>
+    <div id='_close' style="display: none;">
+        <span class="glyphicon glyphicon-remove"></span>
+    </div>
+    <br/>
+    <!--搜索框-->
+    <div id="search_container">
+        <div id=" lab1">
+            <span id="lab_search_mainTxT">周边搜索</span>
+        </div>
+        <div style="width:330px;">
+            <span id="lab_type1">关键词/搜索范围（米）</span>
+        </div>
+        <div id="form_container1">
+            <br/>
+            <input type="text" class="form-control" placeholder="关键词" id="search_line"/>
+            <input type="text" class="form-control" placeholder="搜索范围，例：1000" id="search_line2"/>
+            <input type="button" value="确认" class="btn btn-success" id="search_btn" onclick="clickToSearch()"/>
+        </div>
+    </div>
+</div>
+
+<!--引入高德地图气泡弹窗的样式js-->
+<script type="text/javascript"
+        src="../mapDemo/js/http_a.amap.com_jsapi_demos_static_demo-center_js_demoutils.js"></script>
+
+<!--关于地图函数的相关js实现-->
+<script type="text/javascript">
+
+    var map = new AMap.Map('container', {
+        mapStyle: 'amap://styles/fresh',
+        resizeEnable: true, //是否监控地图容器尺寸变化
+        zoom: 17.5, //地图放大层级
+        center: [116.34839, 39.991072], //地图中心点设置为地大
+        showBuildingBlock:true,
+        viewMode:'3D'
+    });
+
+
+    lockMapBounds();
+    AMap.plugin('AMap.ToolBar', function () {
+        var toolbar = new AMap.ToolBar({
+            position: 'LT',//左侧显示toolbar工具
+        });
+        map.addControl(toolbar);
+    });
+
+    //取消地图显示限制
+    function unlockMapBounds() {
+        map.clearLimitBounds();
+        log.info('已取消显示范围限制，可自由拖曳')
+    }
+
+    function lockMapBounds() {
+        map.setLimitBounds(map.getBounds());
+    }
+
+    function setZoomToCUGB(){
+        var zoom = 17;
+        map.setZoom(zoom);
+        var lng = 116.34839;
+        var lat = 39.991072;
+        map.setCenter([lng, lat]);
+        map.setPitch(1)//恢复视角-上帝视角
+        map.setRotation(0)//正面视角
+        log.info(`已将中心移至地大${lng.toFixed(6)},${lat.toFixed(6)}，缩放默认为${zoom}级`);
+        setTimeout("lockMapBounds()", 1300);
+    }
+
+    //绑定按钮事件
+    document.querySelector("#lock-bounds").onclick = function () {
+        setZoomToCUGB()
+    }
+    document.querySelector("#unlock-bounds").onclick = unlockMapBounds;
+
+    //更换底图底图函数
+    function setMapStyles(value, cnName) {
+        // alert(value);
+        var styleName = "amap://styles/" + value;
+        map.setMapStyle(styleName);
+        log.info(`当前的地图样式为"${cnName}"`);
+    }
+
+    //三个建筑物显示标签
+    var myIconBlue = new AMap.Icon({
+        image: "./images/poi-marker-blue.png",
+        size: new AMap.Size(25, 30), //图标大小
+        imageSize: new AMap.Size(25, 30)
+    });
+    var myIconRed = new AMap.Icon({
+        image: "./images/poi-marker-red.png",
+        size: new AMap.Size(25, 30), //图标大小
+        imageSize: new AMap.Size(25, 30)
+    });
+    var myIconGreen = new AMap.Icon({
+        image: "./images/poi-marker-green.png",
+        size: new AMap.Size(25, 30), //图标大小
+        imageSize: new AMap.Size(25, 30)
+    });
+
+    //删除所有点击显示的点标记
+    function clearAllMarkers() {
+        // alert('test');清除所有的点标记
+        map.remove(markers);
+        log.info(`已删除所有点标记`);
+    }
+</script>
+<!--    周边搜索js文件的加载-->
+<script type="text/javascript" src="../mapDemo/js/aroundSearch.js"></script>
+<!--辅助工具的加载-->
+<script type="text/javascript" src="../mapDemo/js/helpTools.js"></script>
+
+
+<body class="accordionPanel" onload="setWall()">
+<!-- 右侧的手风琴工具栏 -->
+<ul id="accordion" class="accordion">
+    <li>
+        <div class="link" >改变地图样式</div>
+        <ul class="submenu">
+            <li><a href="#" onclick="setMapStyles('normal','标准')">标准</a></li>
+            <li><a href="#" onclick="setMapStyles('fresh','草色青')">草色青</a></li>
+            <li><a href="#" onclick="setMapStyles('grey','暗黑色')">暗黑色</a></li>
+            <li><a href="#" onclick="setMapStyles('graffiti','涂鸦')">涂鸦</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <div class="link"><i></i>可点击标记符号<i></i></div>
+        <ul class="submenu">
+            <li><a href="#" onclick="addTeachListener()">显示教学区标记</a></li>
+            <li><a href="#" onclick="addStuListener()">显示生活区点标记</a></li>
+            <li><a href="#" onclick="addFunListener()">显示文娱区点标记</a></li>
+            <li><a href="#" onclick="clearAllMarkers()">隐藏所有点标记</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="link"><i></i>搜索工具<i></i></div>
+        <ul class="submenu">
+            <li><a href="#" id="Search_start_" onclick="closeSearch()">周边搜索</a></li>
+            <li><a href="#" onclick="showWeather(map)">显示实时天气</a></li>
+            <li><a href="#" onclick="showForecast(map)">天气预测</a></li>
+            <li><a href="#" onclick="closeSearch()">清除搜索记录标识</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="link"><i></i>辅助工具<i></i></div>
+        <ul class="submenu">
+            <li><a href="#" onclick="activateRulerTool()">距离测量</a></li>
+            <li><a href="#" onclick="activateAreaMeasure()">面积测量工具</a></li>
+            <li><a href="#" onclick="setWall()">显示三维边界线</a></li>
+            <li><a href="#" onclick="set3DMap()">显示三维区块</a></li>
+            <li><a href="#" onclick="closeToolMarks()">关闭辅助显示结果</a></li>
+        </ul>
+    </li>
+</ul>
+
+<script>
+    $(function () {
+        var Accordion = function (el, multiple) {
+            this.el = el || {};
+            this.multiple = multiple || false;
+
+            // Variables privadas
+            var links = this.el.find('.link');
+            // Evento
+            links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+        }
+
+        Accordion.prototype.dropdown = function (e) {
+            var $el = e.data.el;
+            $this = $(this),
+                $next = $this.next();
+
+            $next.slideToggle();
+            $this.parent().toggleClass('open');
+
+            if (!e.data.multiple) {
+                $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+            }
+            ;
+        }
+         var accordion = new Accordion($('#accordion'), false);
+    });
+</script>
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+</body>
+
+</body>
+
+</html>
