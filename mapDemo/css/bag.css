@@ -1,0 +1,38 @@
+/**
+该css文件用于放置一些杂而小的样式
+ */
+
+#searchPanel {
+    position: fixed;
+    background-color: white;
+    max-height: 90%;
+    overflow-y: auto;
+    bottom: 10px;
+    left: 10px;
+    width: 280px;
+    border-bottom: solid 1px silver;
+}
+
+#weatherForecast{
+    position: absolute;
+    z-index: 999;
+    background-color: white;
+    max-height: 90%;
+    overflow-y: auto;
+    bottom: 10px;
+    left: 400px;
+    width: 280px;
+    border-bottom: solid 1px silver;
+    font-size: 10px;
+}
+
+/*标签符号*/
+.myIcon{
+    display:inline-block;
+    width:30px;
+    height:30px;
+    background-image:url(../images/test.png);
+    background-position:center;
+    background-size: cover;
+    background-repeat:no-repeat;
+}
